@@ -136,7 +136,7 @@ services:
 
 # manga services
   suwayomi:
-    image: ghcr.io/suwayomi/tachidesk:v2.0.1826
+    image: ghcr.io/suwayomi/tachidesk:latest
     container_name: suwayomi
     restart: unless-stopped
     environment:
@@ -253,6 +253,22 @@ services:
       net:
         ipv4_address: 172.25.0.8
 
+  watchstate:
+    image: ghcr.io/arabcoders/watchstate:latest
+    container_name: watchstate
+    restart: unless-stopped
+    volumes:
+        - D:\srv\watchstate:/config
+    depends_on:
+      - caddy
+      - plex
+      - jellyfin
+    ports:
+        - "8888:8080"        
+    networks:
+      net:
+        ipv4_address: 172.25.0.7
+
 # mc server
   mc:
     image: itzg/minecraft-server:stable
@@ -277,7 +293,7 @@ services:
       - 25565:25565
     networks:
       net:
-        ipv4_address: 172.25.0.7
+        ipv4_address: 172.25.0.6
 
 # network and vpn services
   caddy:
@@ -293,7 +309,7 @@ services:
       - 2025:2025
     networks:
       net:
-        ipv4_address: 172.25.0.6
+        ipv4_address: 172.25.0.5
 
   gluetun:
     image: qmcgaw/gluetun:latest
@@ -324,7 +340,7 @@ services:
       - 6881:6881/tcp
     networks:
       net:
-        ipv4_address: 172.25.0.5
+        ipv4_address: 172.25.0.4
 
 # management services
   portainer:
@@ -343,7 +359,7 @@ services:
         ipv4_address: 172.25.0.3
 
   watchtower:
-    image: containrrr/watchtower
+    image: containrrr/watchtower:latest
     container_name: watchtower
     restart: unless-stopped     
     volumes:
