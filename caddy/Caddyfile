@@ -56,7 +56,3 @@ https://kavita.m3v.dev, http://kavita.m3v.dev {
 https://portainer.m3v.dev, http://portainer.m3v.dev {
 	reverse_proxy portainer:9000
 }
-
-https://watchstate.m3v.dev, http://watchstate.m3v.dev {
-	reverse_proxy watchstate:8888
-}

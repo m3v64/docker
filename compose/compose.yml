@@ -264,7 +264,7 @@ services:
       - plex
       - jellyfin
     ports:
-        - "8888:8080"        
+        - "8888:8080"
     networks:
       net:
         ipv4_address: 172.25.0.7
