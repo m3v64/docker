@@ -271,7 +271,7 @@ services:
 
 # mc server
   mc:
-    image: itzg/minecraft-server:stable
+    image: itzg/minecraft-server:latest
     container_name: mc
     restart: unless-stopped
     tty: true
@@ -281,7 +281,6 @@ services:
       TYPE: "FABRIC"
       VERSION: "1.21.8"
       MEMORY: "16384M"
-      MOTD: "\u00a7fthe most sane 1.21.8 vanilla+ minecraft server\u00a7r\n                \u00a7b<\u300emc.m3v.dev\u300f>"
       ICON: "https://i.postimg.cc/t4h1jLMq/458e66e654804bceb89c3f7edb5adc49e21f93fav2-00-1.jpg"
       USE_AIKAR_FLAGS: "true"
       TZ: "Europe/Amsterdam"
