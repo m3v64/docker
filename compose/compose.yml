@@ -329,6 +329,7 @@ services:
       - TS_USERSPACE=false
     volumes:
       - /dev/net/tun:/dev/net/tun
+      - D:\srv\tailscale:/tailscale
     ports:
       - 25566:25566
     networks:
