@@ -5,7 +5,3 @@
 
 caddy/data
 caddy/config
-
-compose/testCompose2
-compose/testCompose
-compose/compose.env
