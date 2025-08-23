@@ -1,0 +1,57 @@
+services:
+# mc server
+  mc:
+    image: itzg/minecraft-server:latest
+    container_name: mc
+    restart: unless-stopped
+    tty: true
+    stdin_open: true
+    environment:
+      EULA: "TRUE"
+      TYPE: "FABRIC"
+      VERSION: "1.21.8"
+      MEMORY: "16384M"
+      ICON: "https://i.postimg.cc/t4h1jLMq/458e66e654804bceb89c3f7edb5adc49e21f93fav2-00-1.jpg"
+      USE_AIKAR_FLAGS: "true"
+      TZ: "Europe/Amsterdam"
+      DIFFICULTY: "3"
+      ENABLE_COMMAND_BLOCK: "true"
+      SIMULATION_DISTANCE: "16"
+      VIEW_DISTANCE: "16"
+      SPAWN_PROTECTION: "1"
+      OPS: |-
+        m3v_
+      ALLOW_FLIGHT: "true"
+    volumes:
+      - D:\srv\mc\end_of_summer_2025:/data
+    depends_on:
+      - tailscale
+    network_mode: "service:tailscale"
+
+# network services
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscale
+    hostname: mc
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=D:\srv\tailscale
+      - TS_EXTRA_ARGS=--ssh
+      - TS_USERSPACE=false
+    volumes:
+      - /dev/net/tun:/dev/net/tun
+      - D:\srv\tailscale:/tailscale
+    ports:
+      - 25566:25566
+    networks:
+      - mc_net
+
+# volume and network definitions
+networks:
+  mc_net:
+    driver: bridge
+    attachable: true

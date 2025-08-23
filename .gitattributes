@@ -1,4 +1,4 @@
 *.yml binary
 *.conf binary
 * binary
-
+*.env binary
