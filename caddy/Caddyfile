@@ -17,24 +17,8 @@ https://prowlarr.m3v.dev, http://prowlarr.m3v.dev {
 	reverse_proxy gluetun:9696
 }
 
-https://tautulli.m3v.dev, http://tautulli.m3v.dev {
-	reverse_proxy tautulli:8181
-}
-
 https://qbit.m3v.dev, http://qbit.m3v.dev {
 	reverse_proxy gluetun:8080
-}
-
-https://overseerr.m3v.dev, http://overseerr.m3v.dev {
-	reverse_proxy overseerr:5055
-}
-
-https://notifiarr.m3v.dev, http://notifiarr.m3v.dev {
-	reverse_proxy notifiarr:5454
-}
-
-https://plex.m3v.dev, http://plex.m3v.dev {
-	reverse_proxy plex:32400
 }
 
 https://jellyfin.m3v.dev, http://jellyfin.m3v.dev {
@@ -51,8 +35,4 @@ https://komga.m3v.dev, http://komga.m3v.dev {
 
 https://kavita.m3v.dev, http://kavita.m3v.dev {
 	reverse_proxy kavita:5000
-}
-
-https://portainer.m3v.dev, http://portainer.m3v.dev {
-	reverse_proxy portainer:9000
 }
