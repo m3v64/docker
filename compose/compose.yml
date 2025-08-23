@@ -84,31 +84,6 @@ services:
     networks:
       net:
         ipv4_address: 172.25.0.16
-
-  plex:
-    image: lscr.io/linuxserver/plex:latest
-    container_name: plex
-    restart: unless-stopped
-    environment:
-      - TZ=Europe/Amsterdam
-      - VERSION=latest
-      - PLEX_CLAIM=${PLEX_CLAIM}
-      - ADVERTISE_IP=https://plex.m3v.dev/
-    volumes:
-      - D:\srv\plex:/config
-      - E:\anime3:/anime3
-      - G:\anime2:/anime2
-      - D:\srv\media\anime:/anime
-      - E:\movies3:/movies3
-      - G:\movies2:/movies2
-      - D:\srv\media\movies:/movies
-    depends_on:
-      - caddy
-    ports:
-      - 32400:32400
-    networks:
-      net:
-        ipv4_address: 172.25.0.15
   
   jellyfin:
     image: jellyfin/jellyfin:latest
@@ -185,118 +160,6 @@ services:
     networks:
       net:
         ipv4_address: 172.25.0.11
-      
-# other media related services
-  flaresolverr:
-    image: flaresolverr/flaresolverr:latest
-    container_name: flaresolverr
-    restart: unless-stopped
-    environment:
-      - LOG_LEVEL=info
-      - CAPTCHA_SOLVER=none
-      - TZ=Europe/Amsterdam
-    depends_on:
-      - radarr
-      - sonarr
-      - prowlarr
-      - gluetun
-    network_mode: "service:gluetun"
-
-  notifiarr:
-    container_name: notifiarr
-    image: golift/notifiarr:latest
-    restart: unless-stopped
-    environment:
-      - TZ=Europe/Amsterdam
-    volumes:
-      - D:\srv\notifiarr:/config
-    depends_on:
-      - caddy
-    ports:
-      - 5454:5454
-    networks:
-      net:
-        ipv4_address: 172.25.0.10
-
-  overseerr:
-    image: sctx/overseerr:latest
-    container_name: overseerr
-    restart: unless-stopped
-    environment:
-      - TZ=Europe/Amsterdam
-      - PORT=5055
-    volumes:
-      - D:\srv\overseerr:/app/config
-    depends_on:
-      - caddy
-      - plex
-    ports:
-      - 5055:5055
-    networks:
-      net:
-        ipv4_address: 172.25.0.9
-
-  tautulli:
-    image: ghcr.io/tautulli/tautulli:latest
-    container_name: tautulli
-    restart: unless-stopped
-    volumes:
-      - D:\srv\tautulli:/config
-    environment:
-      - TZ=Europe/Amsterdam
-    depends_on:
-      - caddy
-      - plex
-    ports:
-      - 8181:8181
-    networks:
-      net:
-        ipv4_address: 172.25.0.8
-
-  watchstate:
-    image: ghcr.io/arabcoders/watchstate:latest
-    container_name: watchstate
-    restart: unless-stopped
-    volumes:
-        - D:\srv\watchstate:/config
-    depends_on:
-      - caddy
-      - plex
-      - jellyfin
-    ports:
-        - "8888:8080"
-    networks:
-      net:
-        ipv4_address: 172.25.0.7
-
-# mc server
-  mc:
-    image: itzg/minecraft-server:latest
-    container_name: mc
-    restart: unless-stopped
-    tty: true
-    stdin_open: true
-    environment:
-      EULA: "TRUE"
-      TYPE: "FABRIC"
-      VERSION: "1.21.8"
-      MEMORY: "16384M"
-      ICON: "https://i.postimg.cc/t4h1jLMq/458e66e654804bceb89c3f7edb5adc49e21f93fav2-00-1.jpg"
-      USE_AIKAR_FLAGS: "true"
-      TZ: "Europe/Amsterdam"
-      DIFFICULTY: "3"
-      ENABLE_COMMAND_BLOCK: "true"
-      SIMULATION_DISTANCE: "16"
-      VIEW_DISTANCE: "16"
-      SPAWN_PROTECTION: "1"
-      OPS: |-
-        m3v_
-      ALLOW_FLIGHT: "true"
-    volumes:
-      - D:\srv\mc\end_of_summer_2025:/data
-    depends_on:
-      - tailscale
-    network_mode: "service:tailscale"
 
 # network and vpn services
   caddy:
@@ -313,28 +176,6 @@ services:
     networks:
       net:
         ipv4_address: 172.25.0.6
-
-  tailscale:
-    image: tailscale/tailscale:latest
-    container_name: tailscale
-    hostname: mc
-    restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
-    environment:
-      - TS_AUTHKEY=${TS_AUTHKEY}
-      - TS_STATE_DIR=D:\srv\tailscale
-      - TS_EXTRA_ARGS=--ssh
-      - TS_USERSPACE=false
-    volumes:
-      - /dev/net/tun:/dev/net/tun
-      - D:\srv\tailscale:/tailscale
-    ports:
-      - 25566:25566
-    networks:
-      net:
-        ipv4_address: 172.25.0.5
 
   gluetun:
     image: qmcgaw/gluetun:latest
@@ -367,22 +208,22 @@ services:
       net:
         ipv4_address: 172.25.0.4
 
-# management services
-  portainer:
-    image: portainer/portainer:latest
-    container_name: portainer
-    restart: always
-    volumes:
-      - //var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+  flaresolverr:
+    image: flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    restart: unless-stopped
+    environment:
+      - LOG_LEVEL=info
+      - CAPTCHA_SOLVER=none
+      - TZ=Europe/Amsterdam
     depends_on:
-      - caddy  
-    ports:
-      - 9000:9000
-    networks:
-      net:
-        ipv4_address: 172.25.0.3
+      - radarr
+      - sonarr
+      - prowlarr
+      - gluetun
+    network_mode: "service:gluetun"
 
+# management services
   watchtower:
     image: containrrr/watchtower:latest
     container_name: watchtower
@@ -395,9 +236,6 @@ services:
         ipv4_address: 172.25.0.2
 
 # volume and network definitions
-volumes:
-  portainer_data:
-
 networks:
   net:
     driver: bridge
@@ -406,4 +244,3 @@ networks:
         - subnet: 172.25.0.0/24
           gateway: 172.25.0.1
     attachable: true
-
