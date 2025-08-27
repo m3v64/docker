@@ -1,38 +1,15 @@
 {
 	email max.viehofer@gmail.com
 	admin :2025
-	grace_period 10s
-	auto_https disable_redirects
+	grace_period 1m
+	tls D:\srv\server\caddy\data\caddy\certificates\cloudflare-origin-cert\m3v.dev.pem D:\srv\server\caddy\data\caddy\certificates\cloudflare-origin-cert\m3v.dev-key.pem
 }
 
-https://sonarr.m3v.dev, http://sonarr.m3v.dev {
-	reverse_proxy sonarr:8989
-}
-
-https://radarr.m3v.dev, http://radarr.m3v.dev {
-	reverse_proxy radarr:7878
-}
-
-https://prowlarr.m3v.dev, http://prowlarr.m3v.dev {
-	reverse_proxy gluetun:9696
-}
-
-https://qbit.m3v.dev, http://qbit.m3v.dev {
-	reverse_proxy gluetun:8080
-}
-
-https://jellyfin.m3v.dev, http://jellyfin.m3v.dev {
-	reverse_proxy jellyfin:8096
-}
-
-https://suwayomi.m3v.dev, http://suwayomi.m3v.dev {
-	reverse_proxy suwayomi:4567
-}
-
-https://komga.m3v.dev, http://komga.m3v.dev {
-	reverse_proxy komga:25600
-}
-
-https://kavita.m3v.dev, http://kavita.m3v.dev {
-	reverse_proxy kavita:5000
-}
+sonarr.m3v.dev { reverse_proxy sonarr:8989 }
+radarr.m3v.dev { reverse_proxy radarr:7878 }
+prowlarr.m3v.dev { reverse_proxy gluetun:9696 }
+qbit.m3v.dev { reverse_proxy gluetun:8080 }
+jellyfin.m3v.dev { reverse_proxy jellyfin:8096 }
+suwayomi.m3v.dev { reverse_proxy suwayomi:4567 }
+komga.m3v.dev { reverse_proxy komga:25600 }
+kavita.m3v.dev { reverse_proxy kavita:5000 }
