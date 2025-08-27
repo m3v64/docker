@@ -169,7 +169,8 @@ services:
     volumes:
       - D:\srv\server\caddy\Caddyfile:/etc/caddy/Caddyfile
       - D:\srv\server\caddy\data:/data
-      - D:\srv\server\caddy\config:/config    
+      - D:\srv\server\caddy\config:/config
+      - D:\srv\server\caddy\data\caddy\certificates\cloudflare-origin-cert\:/cloudflare-origin-cert
     ports:
       - 443:443
       - 2025:2025
