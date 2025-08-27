@@ -4,42 +4,45 @@
 	grace_period 1m
 }
 
-sonarr.m3v.dev {
-	reverse_proxy sonarr:8989
-	tls /cloudflare-origin-cert/m3v.dev.pem /cloudflare-origin-cert/m3v.dev-key.key
-}
+*.m3v.dev {
+	@sonarr host sonarr.m3v.dev
+	handle @sonarr {
+		reverse_proxy sonarr:8989
+	}
 
-radarr.m3v.dev {
-	reverse_proxy radarr:7878
-	tls /cloudflare-origin-cert/m3v.dev.pem /cloudflare-origin-cert/m3v.dev-key.key
-}
+	@radarr host radarr.m3v.dev
+	handle @radarr {
+		reverse_proxy radarr:7878
+	}
 
-prowlarr.m3v.dev {
-	reverse_proxy gluetun:9696
-	tls /cloudflare-origin-cert/m3v.dev.pem /cloudflare-origin-cert/m3v.dev-key.key
-}
+	@prowlarr host prowlarr.m3v.dev
+	handle @prowlarr {
+		reverse_proxy gluetun:9696
+	}
 
-qbit.m3v.dev {
-	reverse_proxy gluetun:8080
-	tls /cloudflare-origin-cert/m3v.dev.pem /cloudflare-origin-cert/m3v.dev-key.key
-}
+	@qbit host qbit.m3v.dev
+	handle @qbit {
+		reverse_proxy gluetun:8080
+	}
 
-jellyfin.m3v.dev {
-	reverse_proxy jellyfin:8096
-	tls /cloudflare-origin-cert/m3v.dev.pem /cloudflare-origin-cert/m3v.dev-key.key
-}
+	@suwayomi host suwayomi.m3v.dev
+	handle @suwayomi {
+		reverse_proxy suwayomi:4567
+	}
 
-suwayomi.m3v.dev {
-	reverse_proxy suwayomi:4567
-	tls /cloudflare-origin-cert/m3v.dev.pem /cloudflare-origin-cert/m3v.dev-key.key
-}
+	@komga host komga.m3v.dev
+	handle @komga {
+		reverse_proxy komga:25600
+	}
 
-komga.m3v.dev {
-	reverse_proxy komga:25600
-	tls /cloudflare-origin-cert/m3v.dev.pem /cloudflare-origin-cert/m3v.dev-key.key
-}
+	@jellyfin host jellyfin.m3v.dev
+	handle @jellyfin {
+		reverse_proxy jellyfin:8096
+	}
 
-kavita.m3v.dev {
-	reverse_proxy kavita:5000
+	handle {
+		respond "Not found" 404
+	}
+
 	tls /cloudflare-origin-cert/m3v.dev.pem /cloudflare-origin-cert/m3v.dev-key.key
 }
