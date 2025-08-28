@@ -50,6 +50,17 @@ services:
     networks:
       - mc_net
 
+# management services
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    restart: unless-stopped     
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 300 --cleanup
+    networks:
+      - mc_net
+
 # volume and network definitions
 networks:
   mc_net:
