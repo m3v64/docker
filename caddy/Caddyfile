@@ -40,6 +40,11 @@
 		reverse_proxy jellyfin:8096
 	}
 
+	@glance host glance.m3v.dev
+	handle @glance {
+		reverse_proxy glance:9080
+	}
+
 	handle {
 		respond "Not found" 404
 	}

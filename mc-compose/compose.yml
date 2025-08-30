@@ -4,6 +4,11 @@ services:
     image: itzg/minecraft-server:latest
     container_name: mc
     restart: unless-stopped
+    labels:
+      glance.name: Minecraft
+      glance.icon: si:minetest
+      glance.description: TV-Show manager
+      glance.tags: media
     tty: true
     stdin_open: true
     environment:
@@ -34,6 +39,11 @@ services:
     container_name: tailscale
     hostname: mc
     restart: unless-stopped
+    labels:
+      glance.name: Tailscale
+      glance.icon: si:tailscale
+      glance.description: vpn client
+      glance.tags: network
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -53,8 +63,13 @@ services:
 # management services
   watchtower:
     image: containrrr/watchtower:latest
-    container_name: watchtower
-    restart: unless-stopped     
+    container_name: watchtower-mc
+    restart: unless-stopped
+    labels:
+      glance.name: Watchtower
+      glance.icon: di:watchtower
+      glance.description: automatic docker container updates
+      glance.tags: management    
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 300 --cleanup

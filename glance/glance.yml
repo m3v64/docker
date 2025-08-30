@@ -1,35 +1,51 @@
+server:
+  proxied: true
+  port: 9080
+
 pages:
   - name: Home
     # hide-desktop-navigation: true
     columns:
       - size: small
         widgets:
-          - type: calendar
-            first-day-of-week: monday
+        - type: custom-api
+          title: "Schedule"
+          cache: 30m
+          url: "http://glances-ical-api:8076/events?url=${ICAL_URL}&limit=5"
+          template: |
+            <div>
+            {{ range .JSON.Array "events" }}
+              {{ $title := replaceMatches ",.*" "" (.String "name") }}
+              {{ $loc := replaceMatches ",.*" "" (findMatch "HEY-.*" (.String "location")) }}
+              {{ $time := findMatch "\\d{2}:\\d{2}" (.String "start") }}
+              {{ $end   := findMatch "\\d{2}:\\d{2}" (.String "end") }}
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:6px 0;">
+                <div style="width:175px; text-align:left;">
+                  <div class="size-h3">{{ $title }}</div>
+                    <div style="font-size:0.85rem; color:var(--muted);">{{ $loc }}</div>
+                </div>
+                <div style="text-align: right; width: 75px;">
+                  <div class="color-primary size-h3"{{ .String "start" | parseTime "rfc3339" | toRelativeTime }}></div>
+                <div class="color-primary"> 
+                  <div style="font-size:0.85rem; color:var(--muted);">{{ $time }} - {{ $end }}</div>
+                  </div>
+                </div>
+              </div>
+            {{ end }}
+            </div>
 
-          - type: rss
-            limit: 10
-            collapse-after: 3
-            cache: 12h
-            feeds:
-              - url: https://selfh.st/rss/
-                title: selfh.st
-                limit: 4
-              - url: https://ciechanow.ski/atom.xml
-              - url: https://www.joshwcomeau.com/rss.xml
-                title: Josh Comeau
-              - url: https://samwho.dev/rss.xml
-              - url: https://ishadeed.com/feed.xml
-                title: Ahmad Shadeed
+        - type: clock
+          time-format: 24h
+          date-format: DD-MM-YYYY
+          timezone: Europe/Amsterdam
 
-          - type: twitch-channels
-            channels:
-              - theprimeagen
-              - j_blow
-              - piratesoftware
-              - cohhcarnage
-              - christitustech
-              - EJ_SA
+        - type: twitch-channels
+          channels:
+            - theprimeagen
+            - j_blow
+            - cohhcarnage
+            - christitustech
+            - EJ_SA
 
       - size: full
         widgets:
@@ -58,36 +74,41 @@ pages:
       - size: small
         widgets:
           - type: weather
-            location: Amsterdam, Netherlands
+            location: Nijmegen
             units: metric
             hour-format: 24h
 
-          - type: releases
-            cache: 1d
-            # Without authentication the Github API allows for up to 60 requests per hour. You can create a
-            # read-only token from your Github account settings and use it here to increase the limit.
-            # token: ...
-            repositories:
-              - glanceapp/glance
-              - go-gitea/gitea
-              - immich-app/immich
-              - syncthing/syncthing
   - name: Servers
     columns:
+
       - size: full
         widgets:
           - type: docker-containers
             hide-by-default: false
-            show-stopped: true
-            
-          - type: releases
-            cache: 1d
 
-            repositories:
-              - glanceapp/glance
-              - go-gitea/gitea
-              - immich-app/immich
-              - syncthing/syncthing
+      # - size: small
+      #   widgets:      
+      #     - type: releases
+      #       cache: 1d
+
+      #       repositories:
+      #         - glanceapp/glance
+      #         - tailscale/tailscale
+      #         - containrrr/watchtower
+      #         - caddyserver/caddy
+      #         - qmcgaw/gluetun
+      #         - linuxserver/sonarr
+      #         - linuxserver/radarr
+      #         - linuxserver/qbittorrent
+      #         - linuxserver/prowlarr
+      #         - recyclarr/recyclarr
+      #         - jellyfin/jellyfin
+      #         - linuxserver/bitwarden
+      #         - suwayomi/tachidesk
+      #         - gotson/komga
+      #         - sndxr/komf
+      #         - flaresolverr/flaresolverr
+
 
   # Add more pages here:
   # - name: Your page name

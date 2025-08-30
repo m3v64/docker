@@ -6,9 +6,9 @@ services:
     restart: unless-stopped
     labels:
       glance.name: Sonarr
-      glance.icon: si:sonarr
+      glance.icon: di:sonarr
       glance.url: https://sonarr.m3v.dev
-      glance.description: TV-Show download management tool
+      glance.description: TV-Show manager
       glance.tags: media
     environment:
       - TZ=Europe/Amsterdam
@@ -30,6 +30,12 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     container_name: radarr
     restart: unless-stopped
+    labels:
+      glance.name: Radarr
+      glance.icon: di:radarr
+      glance.url: https://radarr.m3v.dev
+      glance.description: Movie manager
+      glance.tags: media
     environment:
       - TZ=Europe/Amsterdam
     volumes:
@@ -50,6 +56,12 @@ services:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     restart: unless-stopped
+    labels:
+      glance.name: Qbittorrent
+      glance.icon: di:qbittorrent
+      glance.url: https://qbit.m3v.dev
+      glance.description: torrent client
+      glance.tags: media
     environment:
     - TZ=Europe/Amsterdam
     - WEBUI_PORT=8080
@@ -66,6 +78,12 @@ services:
     image: lscr.io/linuxserver/prowlarr:latest
     container_name: prowlarr
     restart: unless-stopped
+    labels:
+      glance.name: Prowlarr
+      glance.icon: di:prowlarr
+      glance.url: https://prowlarr.m3v.dev
+      glance.description: indexer manager
+      glance.tags: media
     environment:
       - TZ=Europe/Amsterdam
     volumes:
@@ -79,6 +97,11 @@ services:
     image: ghcr.io/recyclarr/recyclarr:latest
     container_name: recyclarr
     restart: unless-stopped
+    labels:
+      glance.name: Recyclarr
+      glance.icon: di:recyclarr
+      glance.description: management for media quality profiles
+      glance.tags: media
     environment:
       - TZ=Europe/Amsterdam
       - NOTIFIARR_API_KEY=${NOTIFIARR_API_KEY}
@@ -95,6 +118,12 @@ services:
     image: jellyfin/jellyfin:latest
     container_name: jellyfin
     restart: unless-stopped
+    labels:
+      glance.name: Jellyfin
+      glance.icon: di:jellyfin
+      glance.url: https://jellyfin.m3v.dev
+      glance.description: media docker
+      glance.tags: media
     environment:
       - TZ=Europe/Amsterdam
     volumes:
@@ -120,6 +149,12 @@ services:
     image: ghcr.io/suwayomi/tachidesk:latest
     container_name: suwayomi
     restart: unless-stopped
+    labels:
+      glance.name: Suwayomi
+      glance.icon: di:suwayomi
+      glance.url: https://suwayomi.m3v.dev
+      glance.description: Manga reader and manager
+      glance.tags: media
     environment:
       - EXTENSION_REPOS=["https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json","https://raw.githubusercontent.com/suwayomi/tachiyomi-extension/repo/index.min.json"]
       - TZ=Europe/Amsterdam
@@ -138,6 +173,12 @@ services:
     image: ghcr.io/gotson/komga:latest
     container_name: komga
     restart: unless-stopped
+    labels:
+      glance.name: Komga
+      glance.icon: di:komga
+      glance.url: https://komga.m3v.dev
+      glance.description: Manga reader
+      glance.tags: manga
     environment:
       - TZ=Europe/Amsterdam
     volumes:
@@ -155,6 +196,11 @@ services:
     image: sndxr/komf:latest
     container_name: komf
     restart: unless-stopped
+    labels:
+      glance.name: Komf
+      glance.icon: di:komga
+      glance.description: Manga reader companion app for Komga
+      glance.tags: manga
     environment:
       - JAVA_TOOL_OPTIONS=-XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:ShenandoahGCHeuristics=compact -XX:ShenandoahGuaranteedGCInterval=3600000 -XX:TrimNativeHeapInterval=3600000
     volumes:
@@ -172,25 +218,57 @@ services:
     container_name: glance
     image: glanceapp/glance:latest
     restart: unless-stopped
+    labels:
+      glance.name: Glance
+      glance.icon: di:glance
+      glance.url: http://glance.m3v.dev
+      glance.description: selfhosted dashboard
+      glance.tags: dashboard
     volumes:
-      - D:\srv\docker\glance:/app/config
+      - D:\srv\docker\glance\glance.yml:/app/config/glance.yml
       - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - D:\srv\docker\compose\compose.env
     ports:
-      - 9080:8080
+      - 9080:9080
+    depends_on:
+      - caddy
+    networks:
+      net:
+        ipv4_address: 172.25.0.8
+  
+  glances-ical-api:
+    image: ghcr.io/awildleon/glance-ical-events:latest
+    container_name: glances-ical-api
+    restart: unless-stopped
+    labels:
+      glance.name: Glance-ical-api
+      glance.icon: di:google calendar
+      glance.url: http://glance.m3v.dev
+      glance.description: selfhosted dashboard ical api
+      glance.tags: dashboard
+    ports:
+      - 8076:8076
     networks:
       net:
         ipv4_address: 172.25.0.7
+
 
 # network and vpn services
   caddy:
     image: caddy:latest
     container_name: caddy
     restart: unless-stopped
+    labels:
+      glance.name: Caddy
+      glance.icon: di:caddy
+      glance.description: reverse-proxy and automatic ssl
+      glance.tags: network
     volumes:
-      - D:\srv\server\caddy\Caddyfile:/etc/caddy/Caddyfile
-      - D:\srv\server\caddy\data:/data
-      - D:\srv\server\caddy\config:/config
-      - D:\srv\server\caddy\data\caddy\certificates\cloudflare-origin-cert\:/cloudflare-origin-cert
+      - D:\srv\docker\caddy\Caddyfile:/etc/caddy/Caddyfile
+      - D:\srv\docker\caddy\data:/data
+      - D:\srv\docker\caddy\config:/config
+      - D:\srv\docker\caddy\cloudflare-origin-cert\:/cloudflare-origin-cert
     ports:
       - 443:443
       - 2025:2025
@@ -202,6 +280,11 @@ services:
     image: qmcgaw/gluetun:latest
     container_name: gluetun
     restart: unless-stopped
+    labels:
+      glance.name: Gluetun
+      glance.icon: di:gluetun
+      glance.description: vpn client
+      glance.tags: network
     cap_add:
         - NET_ADMIN
     devices:
@@ -233,6 +316,11 @@ services:
     image: flaresolverr/flaresolverr:latest
     container_name: flaresolverr
     restart: unless-stopped
+    labels:
+      glance.name: FlareSolverr
+      glance.icon: di:cloudflare
+      glance.description: bypass cloudflare protections
+      glance.tags: network
     environment:
       - LOG_LEVEL=info
       - CAPTCHA_SOLVER=none
@@ -248,7 +336,12 @@ services:
   watchtower:
     image: containrrr/watchtower:latest
     container_name: watchtower
-    restart: unless-stopped     
+    restart: unless-stopped  
+    labels:
+      glance.name: Watchtower
+      glance.icon: di:watchtower
+      glance.description: automatic docker container updates
+      glance.tags: management   
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 300 --cleanup
