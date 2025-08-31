@@ -9,7 +9,7 @@ services:
       glance.icon: di:sonarr
       glance.url: https://sonarr.m3v.dev
       glance.description: TV-Show manager
-      glance.tags: media
+      glance.category: media
     environment:
       - TZ=Europe/Amsterdam
     volumes:
@@ -35,7 +35,7 @@ services:
       glance.icon: di:radarr
       glance.url: https://radarr.m3v.dev
       glance.description: Movie manager
-      glance.tags: media
+      glance.category: media
     environment:
       - TZ=Europe/Amsterdam
     volumes:
@@ -61,7 +61,7 @@ services:
       glance.icon: di:qbittorrent
       glance.url: https://qbit.m3v.dev
       glance.description: torrent client
-      glance.tags: media
+      glance.category: media
     environment:
     - TZ=Europe/Amsterdam
     - WEBUI_PORT=8080
@@ -80,10 +80,11 @@ services:
     restart: unless-stopped
     labels:
       glance.name: Prowlarr
+      glance.id: prowlarr
       glance.icon: di:prowlarr
       glance.url: https://prowlarr.m3v.dev
       glance.description: indexer manager
-      glance.tags: media
+      glance.category: media
     environment:
       - TZ=Europe/Amsterdam
     volumes:
@@ -101,7 +102,7 @@ services:
       glance.name: Recyclarr
       glance.icon: di:recyclarr
       glance.description: management for media quality profiles
-      glance.tags: media
+      glance.category: media
     environment:
       - TZ=Europe/Amsterdam
       - NOTIFIARR_API_KEY=${NOTIFIARR_API_KEY}
@@ -123,7 +124,7 @@ services:
       glance.icon: di:jellyfin
       glance.url: https://jellyfin.m3v.dev
       glance.description: media docker
-      glance.tags: media
+      glance.category: media
     environment:
       - TZ=Europe/Amsterdam
     volumes:
@@ -154,7 +155,7 @@ services:
       glance.icon: di:suwayomi
       glance.url: https://suwayomi.m3v.dev
       glance.description: Manga reader and manager
-      glance.tags: media
+      glance.category: media
     environment:
       - EXTENSION_REPOS=["https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json","https://raw.githubusercontent.com/suwayomi/tachiyomi-extension/repo/index.min.json"]
       - TZ=Europe/Amsterdam
@@ -175,10 +176,11 @@ services:
     restart: unless-stopped
     labels:
       glance.name: Komga
+
       glance.icon: di:komga
       glance.url: https://komga.m3v.dev
       glance.description: Manga reader
-      glance.tags: manga
+      glance.category: manga
     environment:
       - TZ=Europe/Amsterdam
     volumes:
@@ -200,7 +202,7 @@ services:
       glance.name: Komf
       glance.icon: di:komga
       glance.description: Manga reader companion app for Komga
-      glance.tags: manga
+      glance.category: manga
     environment:
       - JAVA_TOOL_OPTIONS=-XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:ShenandoahGCHeuristics=compact -XX:ShenandoahGuaranteedGCInterval=3600000 -XX:TrimNativeHeapInterval=3600000
     volumes:
@@ -220,10 +222,11 @@ services:
     restart: unless-stopped
     labels:
       glance.name: Glance
+      glance.id: glance
       glance.icon: di:glance
       glance.url: http://glance.m3v.dev
       glance.description: selfhosted dashboard
-      glance.tags: dashboard
+      glance.category: dashboard
     volumes:
       - D:\srv\docker\glance\glance.yml:/app/config/glance.yml
       - /var/run/docker.sock:/var/run/docker.sock
@@ -246,7 +249,8 @@ services:
       glance.icon: di:google calendar
       glance.url: http://glance.m3v.dev
       glance.description: selfhosted dashboard ical api
-      glance.tags: dashboard
+      glance.category: dashboard
+      glance.parent: glance
     ports:
       - 8076:8076
     networks:
@@ -263,7 +267,7 @@ services:
       glance.name: Caddy
       glance.icon: di:caddy
       glance.description: reverse-proxy and automatic ssl
-      glance.tags: network
+      glance.category: network
     volumes:
       - D:\srv\docker\caddy\Caddyfile:/etc/caddy/Caddyfile
       - D:\srv\docker\caddy\data:/data
@@ -284,7 +288,7 @@ services:
       glance.name: Gluetun
       glance.icon: di:gluetun
       glance.description: vpn client
-      glance.tags: network
+      glance.category: network
     cap_add:
         - NET_ADMIN
     devices:
@@ -320,7 +324,8 @@ services:
       glance.name: FlareSolverr
       glance.icon: di:cloudflare
       glance.description: bypass cloudflare protections
-      glance.tags: network
+      glance.category: network
+      glance.parent: prowlarr
     environment:
       - LOG_LEVEL=info
       - CAPTCHA_SOLVER=none
@@ -341,7 +346,7 @@ services:
       glance.name: Watchtower
       glance.icon: di:watchtower
       glance.description: automatic docker container updates
-      glance.tags: management   
+      glance.category: management   
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 300 --cleanup

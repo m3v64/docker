@@ -1,10 +1,68 @@
+auth:
+  secret-key: ${GLANCE_SECRET_KEY}
+  users:
+    admin:
+      password: ${GLANCE_ADMIN_PASSWORD}
+
 server:
   proxied: true
   port: 9080
 
+theme:
+  background-color: 50 1 6
+  primary-color: 157 47 65
+  contrast-multiplier: 1.4
+  positive-color: 165 83 85
+  negative-color: 240 21 32
+  disable-picker: false
+
+  presets:
+    mint:
+      background-color: 186 21 20
+      contrast-multiplier: 1.2
+      primary-color: 97 13 80
+      positive-color: 186 31 30
+      negative-color: 186 11 10
+
+    orange-dark:
+      background-color: 50 1 6
+      primary-color: 24 97 58
+      contrast-multiplier: 0.8
+      positive-color: 24 100 78
+      negative-color: 24 87 38
+
+    black-white:
+      light: true
+      background-color: 0 0 95
+      primary-color: 0 0 10
+      positive-color: 0 0 30
+      negative-color: 0 0 70
+
+    purple:
+      background-color: 231 15 21
+      primary-color: 265 89 79
+      contrast-multiplier: 1.2
+      positive-color: 135 94 66
+      negative-color: 0 100 67
+
+    blue-dark:
+      background-color: 240 21 15
+      contrast-multiplier: 1.2
+      primary-color: 217 92 83
+      positive-color: 115 54 76
+      negative-color: 347 70 65
+
+    blue-light:
+      light: true
+      background-color: 220 23 95
+      contrast-multiplier: 1.0
+      primary-color: 217 92 53
+      positive-color: 109 58 40
+      negative-color: 347 87 44
+
 pages:
   - name: Home
-    # hide-desktop-navigation: true
+    show-mobile-header: true
     columns:
       - size: small
         widgets:
@@ -26,34 +84,19 @@ pages:
                 </div>
                 <div style="text-align: right; width: 75px;">
                   <div class="color-primary size-h3"{{ .String "start" | parseTime "rfc3339" | toRelativeTime }}></div>
-                <div class="color-primary"> 
-                  <div style="font-size:0.85rem; color:var(--muted);">{{ $time }} - {{ $end }}</div>
+                  <div class="color-primary"> 
+                    <div style="font-size:0.85rem; color:var(--muted);">{{ $time }} - {{ $end }}</div>
                   </div>
                 </div>
               </div>
             {{ end }}
             </div>
 
-        - type: clock
-          time-format: 24h
-          date-format: DD-MM-YYYY
-          timezone: Europe/Amsterdam
-
-        - type: twitch-channels
-          channels:
-            - theprimeagen
-            - j_blow
-            - cohhcarnage
-            - christitustech
-            - EJ_SA
+        - type: calendar
+          first-day-of-week: monday
 
       - size: full
         widgets:
-          - type: group
-            widgets:
-              - type: hacker-news
-              - type: lobsters
-
           - type: videos
             channels:
               - UCXuqSBlHAE6Xw-yeJA0Tunw # Linus Tech Tips
@@ -70,21 +113,57 @@ pages:
               - type: reddit
                 subreddit: selfhosted
                 show-thumbnails: true
-
+          
       - size: small
         widgets:
-          - type: weather
-            location: Nijmegen
-            units: metric
-            hour-format: 24h
+        - type: clock
+          time-format: 24h
+          date-format: DD-MM-YYYY
+          timezone: Europe/Amsterdam
+
+        - type: weather
+          location: Nijmegen
+          units: metric
+          hour-format: 24h
+
+        - type: to-do
 
   - name: Servers
     columns:
+      - size: small
+        widgets:
+        - type: monitor
+          cache: 1m
+          title: Sites
+          style: compact
+          sites:
+            - title: Jellyfin
+              url: https://jellyfin.m3v.dev
+            - title: sonarr
+              url: https://sonarr.m3v.dev
+            - title: radarr
+              url: https://radarr.m3v.dev
+            - title: qbittorrent
+              url: https://qbit.m3v.dev
+            - title: prowlarr
+              url: https://prowlarr.m3v.dev
+            - title: komga
+              url: https://komga.m3v.dev
+            - title: suwayomi
+              url: https://suwayomi.m3v.dev
 
       - size: full
         widgets:
           - type: docker-containers
             hide-by-default: false
+      
+      - size: small
+        widgets:
+          - type: server-stats
+            servers:
+              - type: local
+                name: main pc
+                hide-mountpoints-by-default: true
 
       # - size: small
       #   widgets:      
@@ -108,19 +187,3 @@ pages:
       #         - gotson/komga
       #         - sndxr/komf
       #         - flaresolverr/flaresolverr
-
-
-  # Add more pages here:
-  # - name: Your page name
-  #   columns:
-  #     - size: small
-  #       widgets:
-  #         # Add widgets here
-
-  #     - size: full
-  #       widgets:
-  #         # Add widgets here
-
-  #     - size: small
-  #       widgets:
-  #         # Add widgets here
