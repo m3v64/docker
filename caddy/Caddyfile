@@ -50,6 +50,11 @@
 		reverse_proxy vaultwarden:80
 	}
 
+	@dockge host dockge.m3v.dev
+	handle @dockge {
+		reverse_proxy dockge:5001
+	}
+
 	handle {
 		respond "Not found" 404
 	}

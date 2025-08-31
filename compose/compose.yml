@@ -254,7 +254,7 @@ services:
       - D:\srv\docker\glance\glance.yml:/app/config/glance.yml
       - /var/run/docker.sock:/var/run/docker.sock
     env_file:
-      - D:\srv\docker\compose\compose.env
+      - .env
     ports:
       - 9080:9080
     depends_on:
@@ -361,6 +361,32 @@ services:
     network_mode: "service:gluetun"
 
 # management services
+  dockge:
+    image: louislam/dockge:latest
+    container_name: dockge
+    restart: unless-stopped
+    labels:
+      glance.name: Dockge
+      glance.icon: di:dockge
+      glance.url: http://dockge.m3v.dev
+      glance.description: docker gui management
+      glance.category: management
+    environment:
+      - DOCKGE_STACKS_DIR=/opt/stacks
+      - DOCKGE_ENABLE_CONSOLE=true
+      - TZ=Europe/Amsterdam
+    ports:
+      - 5001:5001
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/host/d/srv/docker:/opt/stacks
+      - D:\srv\dockge:/app/data
+    depends_on:
+      - caddy
+    networks:
+      net:
+        ipv4_address: 172.25.0.3
+
   watchtower:
     image: containrrr/watchtower:latest
     container_name: watchtower
