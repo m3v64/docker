@@ -1,0 +1,18 @@
+include:
+  - path: media\media-compose.yml
+  - path: manga\manga-compose.yml
+  - path: web\web-compose.yml
+  - path: gaming\mc-compose.yml
+  - path: security\security-compose.yml
+  - path: network\network-compose.yml
+  - path: management\management-compose.yml
+
+# network definition
+networks:
+  net:
+    driver: bridge
+    attachable: true
+    ipam:
+      config:
+        - subnet: 172.25.0.0/24
+          gateway: 172.25.0.1

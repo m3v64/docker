@@ -1,0 +1,38 @@
+services:
+  dockge:
+    image: louislam/dockge:latest
+    container_name: dockge
+    restart: unless-stopped
+    labels:
+      glance.name: Dockge
+      glance.icon: di:dockge
+      glance.url: http://dockge.m3v.dev
+      glance.description: docker gui management
+      glance.category: management
+    environment:
+      - DOCKGE_STACKS_DIR=/opt/stacks
+      - DOCKGE_ENABLE_CONSOLE=true
+      - TZ=Europe/Amsterdam
+    ports:
+      - 5001:5001
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /mnt/host/d/srv/docker:/opt/stacks
+      - D:\srv\dockge:/app/data
+    networks:
+      - net
+
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    restart: unless-stopped
+    labels:
+      glance.name: Watchtower
+      glance.icon: di:watchtower
+      glance.description: automatic docker container updates
+      glance.category: management   
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 300 --cleanup
+    networks:
+      - net

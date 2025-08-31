@@ -1,0 +1,76 @@
+services:
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    labels:
+      glance.name: Caddy
+      glance.icon: di:caddy
+      glance.description: reverse-proxy and automatic ssl
+      glance.category: network
+    volumes:
+      - D:\srv\docker\caddy\Caddyfile:/etc/caddy/Caddyfile
+      - D:\srv\docker\caddy\data:/data
+      - D:\srv\docker\caddy\config:/config
+      - D:\srv\docker\caddy\cloudflare-origin-cert\:/cloudflare-origin-cert
+    ports:
+      - 443:443
+      - 2025:2025
+    networks:
+      - net
+
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    restart: unless-stopped
+    labels:
+      glance.name: Gluetun
+      glance.icon: di:gluetun
+      glance.description: vpn client
+      glance.category: network
+    cap_add:
+        - NET_ADMIN
+    devices:
+        - /dev/net/tun:/dev/net/tun
+    environment:
+      - VPN_SERVICE_PROVIDER=mullvad
+      - VPN_TYPE=openvpn
+      - OPENVPN_USER=${OPENVPN_USER}
+      - OPENVPN_PASSWORD=m
+      - OPENVPN_CUSTOM_CONFIG=/gluetun/mullvad_nl_ams.ovpn
+      - TZ=Europe/Amsterdam
+    volumes:
+    - D:\srv\openvpn:/gluetun
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "-", "https://ipinfo.io/ip"]
+      interval: 30s
+      retries: 3
+    ports:
+      - 9696:9696
+      - 8191:8191
+      - 8080:8080
+      - 6881:6881/udp
+      - 6881:6881/tcp
+    networks:
+      - net
+
+  flaresolverr:
+    image: flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    restart: unless-stopped
+    labels:
+      glance.name: FlareSolverr
+      glance.icon: di:cloudflare
+      glance.description: bypass cloudflare protections
+      glance.category: network
+      glance.parent: prowlarr
+    environment:
+      - LOG_LEVEL=info
+      - CAPTCHA_SOLVER=none
+      - TZ=Europe/Amsterdam
+    depends_on:
+      - radarr
+      - sonarr
+      - prowlarr
+      - gluetun
+    network_mode: "service:gluetun"
