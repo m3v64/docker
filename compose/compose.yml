@@ -215,6 +215,29 @@ services:
       net:
         ipv4_address: 172.25.0.11
 
+# password management
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    labels:
+      glance.name: Vaultwarden
+      glance.icon: di:bitwarden
+      glance.url: https://vault.m3v.dev
+      glance.description: password manager
+      glance.category: security
+    environment:
+      DOMAIN: "https://vault.m3v.dev"
+    volumes:
+      - D:\srv\vaultwarden:/data
+    ports:
+      - 80:80
+    depends_on:
+      - caddy
+    networks:
+      net:
+        ipv4_address: 172.25.0.9
+
 # web servers
   glance:
     container_name: glance

@@ -62,7 +62,6 @@ theme:
 
 pages:
   - name: Home
-    show-mobile-header: true
     columns:
       - size: small
         widgets:
@@ -132,6 +131,12 @@ pages:
     columns:
       - size: small
         widgets:
+        - type: server-stats
+          servers:
+            - type: local
+              name: main pc
+              hide-mountpoints-by-default: true
+
         - type: monitor
           cache: 1m
           title: Sites
@@ -156,14 +161,6 @@ pages:
         widgets:
           - type: docker-containers
             hide-by-default: false
-      
-      - size: small
-        widgets:
-          - type: server-stats
-            servers:
-              - type: local
-                name: main pc
-                hide-mountpoints-by-default: true
 
       # - size: small
       #   widgets:      

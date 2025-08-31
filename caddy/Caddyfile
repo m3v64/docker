@@ -45,6 +45,11 @@
 		reverse_proxy glance:9080
 	}
 
+	@vault host vault.m3v.dev
+	handle @vault {
+		reverse_proxy vaultwarden:80
+	}
+
 	handle {
 		respond "Not found" 404
 	}
