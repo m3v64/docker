@@ -9,10 +9,10 @@ services:
       glance.description: reverse-proxy and automatic ssl
       glance.category: network
     volumes:
-      - D:\srv\docker\caddy\Caddyfile:/etc/caddy/Caddyfile
-      - D:\srv\docker\caddy\data:/data
-      - D:\srv\docker\caddy\config:/config
-      - D:\srv\docker\caddy\cloudflare-origin-cert\:/cloudflare-origin-cert
+      - D:\srv\docker\server\caddy\Caddyfile:/etc/caddy/Caddyfile
+      - D:\srv\docker\server\caddy\data:/data
+      - D:\srv\docker\server\caddy\config:/config
+      - D:\srv\docker\server\caddy\cloudflare-origin-cert\:/cloudflare-origin-cert
     ports:
       - 443:443
       - 2025:2025
@@ -40,7 +40,7 @@ services:
       - OPENVPN_CUSTOM_CONFIG=/gluetun/mullvad_nl_ams.ovpn
       - TZ=Europe/Amsterdam
     volumes:
-    - D:\srv\openvpn:/gluetun
+    - D:\srv\docker\data\openvpn:/gluetun
     healthcheck:
       test: ["CMD", "wget", "-qO", "-", "https://ipinfo.io/ip"]
       interval: 30s

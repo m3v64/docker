@@ -13,8 +13,8 @@ services:
       - EXTENSION_REPOS=["https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json","https://raw.githubusercontent.com/suwayomi/tachiyomi-extension/repo/index.min.json"]
       - TZ=Europe/Amsterdam
     volumes:
-      - D:\srv\media\manga:/home/suwayomi/.local/share/Tachidesk/downloads
-      - D:\srv\suwayomi:/home/suwayomi/.local/share/Tachidesk
+      - D:\srv\docker\media\manga:/home/suwayomi/.local/share/Tachidesk/downloads
+      - D:\srv\docker\data\suwayomi:/home/suwayomi/.local/share/Tachidesk
     depends_on: 
       - caddy 
     ports:
@@ -36,8 +36,8 @@ services:
     environment:
       - TZ=Europe/Amsterdam
     volumes:
-      - D:\srv\komga:/config
-      - D:\srv\media\manga:/books
+      - D:\srv\docker\data\komga:/config
+      - D:\srv\docker\media\manga:/books
     depends_on:
       - caddy
     ports:
@@ -57,7 +57,7 @@ services:
     environment:
       - JAVA_TOOL_OPTIONS=-XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:ShenandoahGCHeuristics=compact -XX:ShenandoahGuaranteedGCInterval=3600000 -XX:TrimNativeHeapInterval=3600000
     volumes:
-      - D:\srv\docker\komf:/config
+      - D:\srv\docker\server\komf:/config
     depends_on:
       - komga
     ports:

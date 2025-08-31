@@ -17,8 +17,8 @@ services:
       - 5001:5001
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/host/d/srv/docker:/opt/stacks
-      - D:\srv\dockge:/app/data
+      - /mnt/host/d/srv/docker/server/compose:/opt/stacks
+      - D:\srv\docker\data\dockge:/app/data
     networks:
       - net
 

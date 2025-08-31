@@ -12,11 +12,11 @@ services:
     environment:
       - TZ=Europe/Amsterdam
     volumes:
-      - D:\srv\sonarr:/config
+      - D:\srv\docker\data\sonarr:/config
       - E:\anime3:/anime3
       - G:\anime2:/anime2
-      - D:\srv\media\anime:/anime
-      - D:\srv\media\downloads:/downloads
+      - D:\srv\docker\media\anime:/anime
+      - D:\srv\docker\media\downloads:/downloads
     depends_on:
       - caddy
     ports:
@@ -37,11 +37,11 @@ services:
     environment:
       - TZ=Europe/Amsterdam
     volumes:
-      - D:\srv\radarr:/config
+      - D:\srv\docker\data\radarr:/config
       - E:\movies3:/movies3
       - G:\movies2:/movies2
-      - D:\srv\media\movies:/movies
-      - D:\srv\media\downloads:/downloads
+      - D:\srv\docker\media\movies:/movies
+      - D:\srv\docker\media\downloads:/downloads
     depends_on:
       - caddy 
     ports:
@@ -64,8 +64,8 @@ services:
     - WEBUI_PORT=8080
     - TORRENTING_PORT=6881
     volumes:
-      - D:\srv\qbit:/config
-      - D:\srv\media\downloads:/downloads
+      - D:\srv\docker\data\qbit:/config
+      - D:\srv\docker\media\downloads:/downloads
     depends_on:
       - caddy
       - gluetun
@@ -85,7 +85,7 @@ services:
     environment:
       - TZ=Europe/Amsterdam
     volumes:
-      - D:\srv\prowlarr:/config
+      - D:\srv\docker\data\prowlarr:/config
     depends_on:
       - caddy
       - gluetun
@@ -104,7 +104,7 @@ services:
       - TZ=Europe/Amsterdam
       - NOTIFIARR_API_KEY=${NOTIFIARR_API_KEY}
     volumes:
-      - D:\srv\recyclarr:/config
+      - D:\srv\docker\data\recyclarr:/config
     depends_on:
       - sonarr
       - radarr
@@ -124,14 +124,14 @@ services:
     environment:
       - TZ=Europe/Amsterdam
     volumes:
-      - D:\srv\jellyfin:/config
-      - D:\srv\jellyfin\cache:/cache
+      - D:\srv\docker\data\jellyfin:/config
+      - D:\srv\docker\data\jellyfin\cache:/cache
       - E:\anime3:/anime3
       - G:\anime2:/anime2
-      - D:\srv\media\anime:/anime
+      - D:\srv\docker\media\anime:/anime
       - E:\movies3:/movies3
       - G:\movies2:/movies2
-      - D:\srv\media\movies:/movies
+      - D:\srv\docker\media\movies:/movies
     depends_on:
       - caddy
     ports:

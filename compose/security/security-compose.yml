@@ -37,7 +37,7 @@ services:
     environment:
       DOMAIN: "https://vault.m3v.dev"
     volumes:
-      - D:\srv\vaultwarden:/data
+      - D:\srv\docker\data\vaultwarden:/data
     ports:
       - 80:80
     depends_on:

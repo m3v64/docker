@@ -11,10 +11,10 @@ services:
       glance.description: selfhosted dashboard
       glance.category: dashboard
     volumes:
-      - D:\srv\docker\glance\glance.yml:/app/config/glance.yml
+      - D:\srv\docker\server\glance\glance.yml:/app/config/glance.yml
       - /var/run/docker.sock:/var/run/docker.sock
     env_file:
-      - D:\srv\docker\compose\.env
+      - D:\srv\docker\server\compose.env
     ports:
       - 9080:9080
     depends_on:
