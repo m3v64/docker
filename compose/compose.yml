@@ -206,7 +206,7 @@ services:
     environment:
       - JAVA_TOOL_OPTIONS=-XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:ShenandoahGCHeuristics=compact -XX:ShenandoahGuaranteedGCInterval=3600000 -XX:TrimNativeHeapInterval=3600000
     volumes:
-      - D:\srv\komf:/config
+      - D:\srv\docker\komf:/config
     depends_on:
       - komga
     ports:
@@ -215,7 +215,33 @@ services:
       net:
         ipv4_address: 172.25.0.11
 
-# password management
+# security services
+  authelia:
+    container_name: authelia
+    image: docker.io/authelia/authelia:latest
+    restart: unless-stopped
+    labels:
+      glance.name: Authelia
+      glance.icon: di:authelia
+      glance.url: https://auth.m3v.dev
+      glance.description: authentication and 2fa
+      glance.category: security
+    environment:
+      AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE: /secrets/JWT_SECRET
+      AUTHELIA_SESSION_SECRET_FILE: /secrets/SESSION_SECRET
+      AUTHELIA_STORAGE_POSTGRES_PASSWORD_FILE: /secrets/STORAGE_PASSWORD
+      AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: /secrets/STORAGE_ENCRYPTION_KEY
+    volumes:
+      - D:\srv\docker\authalia\config:/config
+      - D:\srv\docker\authalia\secrets:/secrets
+    depends_on:
+      - caddy
+    ports:
+      - 9091:9091
+    networks:
+      net:
+        ipv4_address: 172.25.0.10    
+
   vaultwarden:
     image: vaultwarden/server:latest
     container_name: vaultwarden
@@ -407,6 +433,7 @@ services:
 networks:
   net:
     driver: bridge
+    external: true
     ipam:
       config:
         - subnet: 172.25.0.0/24

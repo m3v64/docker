@@ -5,3 +5,5 @@
 
 caddy/data
 caddy/config
+komf/database.sqlite
+authalia/secrets
