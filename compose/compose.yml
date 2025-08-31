@@ -2,6 +2,7 @@ services:
 # media services
   sonarr:
     image: lscr.io/linuxserver/sonarr:latest
+    profiles: ["nightly"]
     container_name: sonarr
     restart: unless-stopped
     labels:
@@ -28,6 +29,7 @@ services:
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
+    profiles: ["nightly"]
     container_name: radarr
     restart: unless-stopped
     labels:
@@ -54,6 +56,7 @@ services:
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
+    profiles: ["nightly"]
     container_name: qbittorrent
     restart: unless-stopped
     labels:
@@ -76,6 +79,7 @@ services:
 
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:latest
+    profiles: ["nightly"]
     container_name: prowlarr
     restart: unless-stopped
     labels:
@@ -96,6 +100,7 @@ services:
 
   recyclarr:
     image: ghcr.io/recyclarr/recyclarr:latest
+    profiles: ["nightly"]
     container_name: recyclarr
     restart: unless-stopped
     labels:
@@ -117,6 +122,7 @@ services:
   
   jellyfin:
     image: jellyfin/jellyfin:latest
+    profiles: ["nightly"]
     container_name: jellyfin
     restart: unless-stopped
     labels:
@@ -148,6 +154,7 @@ services:
 # manga services
   suwayomi:
     image: ghcr.io/suwayomi/tachidesk:latest
+    profiles: ["nightly"]
     container_name: suwayomi
     restart: unless-stopped
     labels:
@@ -172,6 +179,7 @@ services:
 
   komga:
     image: ghcr.io/gotson/komga:latest
+    profiles: ["nightly"]
     container_name: komga
     restart: unless-stopped
     labels:
@@ -196,6 +204,7 @@ services:
 
   komf:
     image: sndxr/komf:latest
+    profiles: ["nightly"]
     container_name: komf
     restart: unless-stopped
     labels:
@@ -219,6 +228,7 @@ services:
   authelia:
     container_name: authelia
     image: docker.io/authelia/authelia:latest
+    profiles: ["nightly"]
     restart: unless-stopped
     labels:
       glance.name: Authelia
@@ -244,6 +254,7 @@ services:
 
   vaultwarden:
     image: vaultwarden/server:latest
+    profiles: ["nightly"]
     container_name: vaultwarden
     restart: unless-stopped
     labels:
@@ -268,6 +279,7 @@ services:
   glance:
     container_name: glance
     image: glanceapp/glance:latest
+    profiles: ["nightly"]
     restart: unless-stopped
     labels:
       glance.name: Glance
@@ -291,6 +303,7 @@ services:
   
   glances-ical-api:
     image: ghcr.io/awildleon/glance-ical-events:latest
+    profiles: ["nightly"]
     container_name: glances-ical-api
     restart: unless-stopped
     labels:
@@ -310,6 +323,7 @@ services:
 # network and vpn services
   caddy:
     image: caddy:latest
+    profiles: ["nightly"]
     container_name: caddy
     restart: unless-stopped
     labels:
@@ -331,6 +345,7 @@ services:
 
   gluetun:
     image: qmcgaw/gluetun:latest
+    profiles: ["nightly"]
     container_name: gluetun
     restart: unless-stopped
     labels:
@@ -367,6 +382,7 @@ services:
 
   flaresolverr:
     image: flaresolverr/flaresolverr:latest
+    profiles: ["nightly"]
     container_name: flaresolverr
     restart: unless-stopped
     labels:
@@ -389,6 +405,7 @@ services:
 # management services
   dockge:
     image: louislam/dockge:latest
+    profiles: ["nightly"]
     container_name: dockge
     restart: unless-stopped
     labels:
@@ -415,8 +432,9 @@ services:
 
   watchtower:
     image: containrrr/watchtower:latest
+    profiles: ["nightly"]
     container_name: watchtower
-    restart: unless-stopped  
+    restart: unless-stopped
     labels:
       glance.name: Watchtower
       glance.icon: di:watchtower

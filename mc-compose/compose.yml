@@ -2,6 +2,7 @@ services:
 # mc server
   mc:
     image: itzg/minecraft-server:latest
+    profiles: ["nightly"]
     container_name: mc
     restart: unless-stopped
     labels:
@@ -36,6 +37,7 @@ services:
 # network services
   tailscale:
     image: tailscale/tailscale:latest
+    profiles: ["nightly"]
     container_name: tailscale
     hostname: mc
     restart: unless-stopped
@@ -63,6 +65,7 @@ services:
 # management services
   watchtower:
     image: containrrr/watchtower:latest
+    profiles: ["nightly"]
     container_name: watchtower-mc
     restart: unless-stopped
     labels:
