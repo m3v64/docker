@@ -433,9 +433,9 @@ services:
 networks:
   net:
     driver: bridge
+    attachable: true
     external: true
     ipam:
       config:
         - subnet: 172.25.0.0/24
           gateway: 172.25.0.1
-    attachable: true

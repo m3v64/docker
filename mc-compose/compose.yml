@@ -58,7 +58,7 @@ services:
     ports:
       - 25566:25566
     networks:
-      - mc_net
+      - mc-net
 
 # management services
   watchtower:
@@ -74,10 +74,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 300 --cleanup
     networks:
-      - mc_net
+      - mc-net
 
 # volume and network definitions
 networks:
-  mc_net:
+  mc-net:
     driver: bridge
     attachable: true
+    external: true
