@@ -1,7 +1,7 @@
 include:
   - path: media\docker-compose.yml
   - path: manga\docker-compose.yml
-  - path: web\docker-compose.yml
+  - path: dashboard\docker-compose.yml
   - path: gaming\docker-compose.yml
   - path: security\docker-compose.yml
   - path: network\docker-compose.yml
