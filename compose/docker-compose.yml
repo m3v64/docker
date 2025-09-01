@@ -1,11 +1,11 @@
 include:
-  - path: media\media-compose.yml
-  - path: manga\manga-compose.yml
-  - path: web\web-compose.yml
-  - path: gaming\mc-compose.yml
-  - path: security\security-compose.yml
-  - path: network\network-compose.yml
-  - path: management\management-compose.yml
+  - path: media\docker-compose.yml
+  - path: manga\docker-compose.yml
+  - path: web\docker-compose.yml
+  - path: gaming\docker-compose.yml
+  - path: security\docker-compose.yml
+  - path: network\docker-compose.yml
+  - path: management\docker-compose.yml
 
 # network definition
 networks:
