@@ -364,7 +364,7 @@ pages:
               {{ end }}
             </ul>
 
-        - type: monitor
+        - type: Site status
           cache: 1m
           title: Sites
           style: compact
@@ -387,7 +387,7 @@ pages:
       - size: full
         widgets:
           - type: custom-api
-            title: Latest Shows
+            title: Latest Episodes
             frameless: true
             cache: 5m
             options:
@@ -638,7 +638,7 @@ pages:
       - size: small
         widgets:
         - type: custom-api
-          title: "Jellyfin/Emby Stats"
+          title: "Jellyfin Stats"
           base-url: ${JELLYFIN_URL}
           options:
             url: ${JELLYFIN_URL}
@@ -784,17 +784,17 @@ pages:
           title: qBittorrent
           cache: 1m
           options:
-            hide-summary: false # Hide summary
-            collapsible: true # Torrents list collapse
-            hide-bar: false # Hide progress bars
-            hide-completed: false # Hide finished torrents
-            hide-inactive: false # Hide inactive torrents
+            hide-summary: false
+            collapsible: true
+            hide-bar: false
+            hide-completed: false
+            hide-inactive: false
           subrequests:
             info:
               url: "http://${QBW_URL}/qb/torrents"
               method: GET
               headers:
-                Authorization: "Bearer ${AUTH_TOKEN}"  # your QBW token
+                Authorization: "Bearer ${AUTH_TOKEN}"
           template: |
             {{ $info := .Subrequest "info" }}
             {{ $torrents := $info.JSON.Array "torrents" }}
@@ -902,26 +902,3 @@ pages:
               </div>
             
             {{ end }}
-
-      # - size: small
-      #   widgets:      
-      #     - type: releases
-      #       cache: 1d
-
-      #       repositories:
-      #         - glanceapp/glance
-      #         - tailscale/tailscale
-      #         - containrrr/watchtower
-      #         - caddyserver/caddy
-      #         - qmcgaw/gluetun
-      #         - linuxserver/sonarr
-      #         - linuxserver/radarr
-      #         - linuxserver/qbittorrent
-      #         - linuxserver/prowlarr
-      #         - recyclarr/recyclarr
-      #         - jellyfin/jellyfin
-      #         - linuxserver/bitwarden
-      #         - suwayomi/tachidesk
-      #         - gotson/komga
-      #         - sndxr/komf
-      #         - flaresolverr/flaresolverr
