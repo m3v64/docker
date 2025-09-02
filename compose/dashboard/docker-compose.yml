@@ -11,7 +11,7 @@ services:
       glance.description: selfhosted dashboard
       glance.category: dashboard
     volumes:
-      - D:\srv\docker\server\glance\glance.yml:/app/config/glance.yml
+      - D:\srv\docker\data\glance\glance.yml:/app/config/glance.yml
       - /var/run/docker.sock:/var/run/docker.sock
     env_file:
       - D:\srv\docker\server\compose\.env
@@ -56,7 +56,7 @@ services:
       BASE_URL: ${QB_URL}
       AUTH_TOKEN: ${AUTH_TOKEN}
     volumes:
-      - D:\srv\docker\server\glance\logs:/app/logs
+      - D:\srv\docker\data\glance\logs:/app/logs
     ports:
       - 9911:9911
     networks:
